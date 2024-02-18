@@ -30,7 +30,7 @@ function* postData(action) {
 
         const postResponse = yield call(axios.post, 'https://dev3.xicom.us/xttest/savedata.php', formData, {
             headers: {
-                'Content-Type': 'multipart/form-data',
+                // 'Content-Type': 'multipart/form-data',
             }
         });
 

@@ -2,7 +2,7 @@ import { View, Modal, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import LottieView from 'lottie-react-native';
 
-const ErrorModal = ({ message, isError }) => {
+const ErrorModal = ({ Message, isError }) => {
   const [ modalVisible, setModalVisible ] = useState(true);
 
   return (
@@ -23,7 +23,7 @@ const ErrorModal = ({ message, isError }) => {
                   autoPlay
                   loop
                 />
-                <Text style={styles.errorText}>{message}</Text>
+                <Text style={styles.errorText}>{Message}</Text>
               </>
             ) : (
               <>
@@ -33,7 +33,7 @@ const ErrorModal = ({ message, isError }) => {
                   autoPlay
                   loop
                 />
-                <Text style={[ styles.errorText, { color: "green" } ]}>{"Message"}</Text>
+                <Text style={[ styles.errorText, { color: "green" } ]}>{Message}</Text>
 
               </>
             )}
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    marginTop: 10, 
+    marginTop: 10, // Adjust spacing as needed
   },
   closeButtonText: {
     color: 'white',
