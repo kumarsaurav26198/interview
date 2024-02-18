@@ -6,8 +6,9 @@ export const postDataRequest = (data) => ({
   payload: data,
 });
 
-export const postDataSuccess = () => ({
+export const postDataSuccess = (status) => ({
   type: ActionTypes.POST_DATA_SUCCESS,
+  payload:status
 });
 
 export const postDataFailure = (error) => ({

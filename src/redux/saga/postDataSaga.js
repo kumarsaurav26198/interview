@@ -38,7 +38,7 @@ function* postData(action) {
         console.log("response message=====>>:", postResponse?.data?.message);
         console.log("response status =====>>:", postResponse?.data?.status);
 
-        yield put(postDataSuccess());
+        yield put(postDataSuccess( postResponse?.data));
     } catch (error) {
         console.log("Error posting data:", error);
         yield put(postDataFailure(error));

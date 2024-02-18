@@ -14,7 +14,7 @@ const App = () => {
         <SafeAreaView style={{ flex: 1 }}>
           <StatusBar
            backgroundColor="#1bb57d"
-            barStyle="dark-content"
+            barStyle="light-content"
           />
           <Provider store={store}>
           <AppNavigation />

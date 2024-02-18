@@ -16,15 +16,14 @@ export const postDataReducers = (state = initialState, action) => {
       };
 
     case ActionTypes.POST_DATA_SUCCESS:
-    console.log("POST_DATA_SUCCESS")
-
+    console.log("POST_DATA_SUCCESS", action.payload)
       return {
         ...state,
         loading: false,
       };
 
     case ActionTypes.POST_DATA_FAILURE:
-      console.log("POST_DATA_FAILURE")
+      console.log("POST_DATA_FAILURE", action.payload)
       return {
         ...state,
         loading: false,

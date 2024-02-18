@@ -12,6 +12,7 @@ const HomeCardContainer = ({ navigation }) => {
   useEffect(() => {
     dispatch(fetchDataRequest(limit));
   }, [dispatch]); 
+  
   const handleLoadMore = () => {
     setLimit(prevLimit => prevLimit + 1);
     {
