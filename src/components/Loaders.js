@@ -1,6 +1,6 @@
 import { View, Modal, StyleSheet } from 'react-native';
 import React from 'react';
-import LottieView from 'lottie-react-native';
+// import LottieView from 'lottie-react-native';
 
 const Loader = ({ modalVisible, setModalVisible }) => {
   return (
@@ -13,12 +13,12 @@ const Loader = ({ modalVisible, setModalVisible }) => {
       }}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <LottieView
+          {/* <LottieView
             style={styles.lottieView}
             source={require('../assets/animations/Loader4.json')}
             autoPlay
             loop
-          />
+          /> */}
         </View>
       </View>
     </Modal>

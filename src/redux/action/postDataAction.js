@@ -1,9 +1,9 @@
 import { ActionTypes } from "../constants/actiontypes";
 
 
-export const postDataRequest = (formData) => ({
+export const postDataRequest = (data) => ({
   type: ActionTypes.POST_DATA_REQUEST,
-  payload: formData,
+  payload: data,
 });
 
 export const postDataSuccess = () => ({
