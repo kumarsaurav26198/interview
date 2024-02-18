@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { ScrollView, View, Text, Image, StyleSheet, ActivityIndicator } from 'react-native';
+import React, { useState } from 'react';
+import { ScrollView, View, Text, Image, StyleSheet,  } from 'react-native';
 import CustomTextInput from '../../../components/CustomTextInput';
 import CustomButton from '../../../components/CustomButton';
 import { postDataRequest } from '../../../redux/action/postDataAction';
 import { useDispatch, connect } from 'react-redux';
 import Loader from '../../../components/Loaders';
-import ErrorModal from '../../../components/ErrorModal';
 
 const Details = (props) => {
   const dispatch = useDispatch();
@@ -91,6 +90,9 @@ const Details = (props) => {
             }}
             resizeMode='contain'
           />
+          {/* {
+            error?  <Text style={[styles.text,{color:"red", fontSize:15,fontWeight:"bold"}]}>{"Error==>"}{error}</Text> :null
+          } */}
           <View style={styles.textInputContainer}>
             <Text style={styles.text}>First Name</Text>
             <CustomTextInput value={firstName} placeholder={"Enter your first name here"} onChangeText={text => setFirstName(text)} />
@@ -118,7 +120,7 @@ const Details = (props) => {
           </View>
         </View>
       )}
-      {error ? <ErrorModal message={error} isError={true} /> : null}
+
     </ScrollView>
   );
 };
