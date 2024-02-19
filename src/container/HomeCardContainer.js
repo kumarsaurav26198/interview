@@ -3,48 +3,60 @@ import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-nativ
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDataRequest } from '../redux/action/fetchDataAction';
 import MyCard from '../components/MyCard';
+import ErrorModal from '../components/ErrorModal';
+import CustomButton from '../components/CustomButton';
 
 const HomeCardContainer = ({ navigation }) => {
   const dispatch = useDispatch();
   const [limit, setLimit] = useState(0);
+  const [homeData, setHomeData] = useState([]);
   const { data, error, loading } = useSelector((state) => state.fetchDataReducer);
 
   useEffect(() => {
     dispatch(fetchDataRequest(limit));
-  }, [dispatch]); 
-  
-  const handleLoadMore = () => {
-    setLimit(prevLimit => prevLimit + 1);
-    {
-      if (limit<5){
-        dispatch(fetchDataRequest(limit));
-      }
-    }
+  }, [dispatch, limit]);
 
+  useEffect(() => {
+    if (data && data?.images) {
+      const newData = data?.images.filter(newItem => !homeData?.some(oldItem => oldItem.id === newItem.id));
+      setHomeData(prevData => [...prevData, ...newData]);
+    }
+  }, [data]);
+  
+  homeData.sort((a, b) => a.id - b.id);
+
+  const handleLoadMore = () => {
+    if (!loading && limit < 5) {
+      setLimit(prevLimit => prevLimit + 1);
+    }
   };
 
   const renderFooter = () => {
     if (loading) {
+      return <ActivityIndicator animating size="large" color="#007AFF" />;
+    } else if (limit > 4 || !data?.images || data?.images?.length === 0) {
+      return <Text style={{ textAlign: "center", color: "#000", fontSize: 20, marginBottom: 10 }}>---No more data---</Text>;
+    } else {
       return (
         <View style={styles.footer}>
-          <ActivityIndicator animating size="large" color="#007AFF" />
+          <CustomButton
+            title="Load More.."
+            onPress={handleLoadMore}
+            color="white"
+            backgroundColor="#3b71f3"
+          />
         </View>
       );
-    } else if (limit > 4) {
-      return (
-        <Text style={{textAlign: "center", color: "#000", fontSize: 20, marginBottom: 10}}>---No more data---</Text>
-      );
     }
-    return null;
   };
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       {error ? (
-        <Text>Error: {error.message}</Text>
+        <ErrorModal isError={true} Message={error?.message} />
       ) : (
         <FlatList
-          data={data.images}
+          data={homeData}
           renderItem={({ item }) => {
             const imageUri = item.xt_image.replace(/^http:/, 'https:');
             return (
@@ -58,9 +70,9 @@ const HomeCardContainer = ({ navigation }) => {
             );
           }}
           keyExtractor={item => item.id}
-          onEndReached={handleLoadMore}
           onEndReachedThreshold={0.1}
           ListFooterComponent={renderFooter}
+          showsVerticalScrollIndicator={false} 
         />
       )}
     </View>
@@ -69,9 +81,9 @@ const HomeCardContainer = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   footer: {
-    paddingVertical: 20,
-    borderTopWidth: 1,
-    borderColor: '#CED0CE',
+    justifyContent: "center",
+    marginHorizontal: 40,
+    marginBottom: 20
   },
 });
 

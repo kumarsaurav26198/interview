@@ -1,7 +1,7 @@
 import { ActionTypes } from "../constants/actiontypes";
 
 export const fetchDataRequest = (limit) => {
-    console.log("FETCH_DATA_REQUEST action called");
+    console.log("FETCH_DATA_REQUEST action called",limit);
     return {
         type: ActionTypes.FETCH_DATA_REQUEST,
         payload:limit

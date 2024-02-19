@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, View, Text, Image, StyleSheet,  } from 'react-native';
+import { ScrollView, View, Text, Image, StyleSheet, } from 'react-native';
 import CustomTextInput from '../../../components/CustomTextInput';
 import CustomButton from '../../../components/CustomButton';
 import { postDataRequest } from '../../../redux/action/postDataAction';
@@ -16,7 +16,11 @@ const Details = (props) => {
   const [ lastName, setLastName ] = useState("");
   const [ email, setEmail ] = useState("");
   const [ number, setNumber ] = useState("");
-  const [errorText, setErrorText] = useState("")
+  const [ modalVisible, setModalVisible ] = useState(false);
+  const [ errorFn, setErrorFn ] = useState("");
+  const [ errorLN, setErrorLN ] = useState("");
+  const [ errorEmail, setErrorEmail ] = useState("");
+  const [ errorNum, setErrorNum ] = useState();
 
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -26,41 +30,59 @@ const Details = (props) => {
     const regex = /^[0-9]{10}$/;
     return regex.test(phoneNumber);
   };
+
+  const clearAll = () => {
+    setErrorFn("");
+    setErrorLN('');
+    setErrorEmail("");
+    setErrorNum('');
+    setModalVisible(true)
+  };
   const handleSubmit = () => {
-    if (firstName.trim().length === 0) {
-      setErrorText('First name is required');
+    if (firstName.trim().length === 0)
+    {
+      setErrorFn('First name is required');
       return;
     }
-    if (firstName.trim().length < 3) {
-      setErrorText('Invalid first name');
+    if (firstName.trim().length < 3)
+    {
+      setErrorFn('Invalid first name');
       return;
     }
-    if (lastName.trim().length === 0) {
-      setErrorText('Last name is required');
+    clearAll();
+
+    if (lastName.trim().length === 0)
+    {
+      setErrorLN('Last name is required');
       return;
     }
-    if (lastName.trim().length < 3) {
-      setErrorText('Invalid last name');
+    if (lastName.trim().length < 3)
+    {
+      setErrorLN('Invalid last name');
       return;
     }
 
-    if (!email.trim()) {
-      setErrorText('Email is required');
+    if (!email.trim())
+    {
+      setErrorEmail('Email is required');
       return;
     }
-    if (!validateEmail(email)) {
-      setErrorText('Invalid email');
+    if (!validateEmail(email))
+    {
+      setErrorEmail('Invalid email');
       return;
     }
-    if (!number.trim()) {
-      setErrorText('Number is required');
+    if (!number.trim())
+    {
+      setErrorNum('Number is required');
       return;
     }
-    if (!validatePhoneNumber(number)) {
-      setErrorText('Invalid number');
+    if (!validatePhoneNumber(number))
+    {
+      setErrorNum('Invalid number');
       return;
     }
- 
+
     const payload = {
       firstName: firstName,
       lastName: lastName,
@@ -69,14 +91,10 @@ const Details = (props) => {
       user_image: data.imageUrl
     };
     dispatch(postDataRequest(payload));
-
-    setFirstName('')
-    setLastName('')
-    setNumber('')
-    setEmail('')
+    clearAll();
   };
 
- 
+
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: theme ? 'black' : 'white' }}>
@@ -92,28 +110,32 @@ const Details = (props) => {
             resizeMode='contain'
           />
           {
-            error? 
-            <ErrorModal isError={true} Message={"[ Error ]"}/>
-             :null
+            error ?
+              <ErrorModal isError={true} Message={"[ Error ]"} />
+              : null
           }
           <View style={styles.textInputContainer}>
             <Text style={styles.text}>First Name</Text>
-            <CustomTextInput value={firstName} placeholder={"Enter your first name here"} onChangeText={text => setFirstName(text)} />
+            <CustomTextInput value={firstName} placeholder={"Enter your first name"} onChangeText={text => setFirstName(text)} />
           </View>
+          { errorFn ? <Text style={[ styles.text, { color: "red", fontSize: 12,marginLeft:"40%" } ]}>{errorFn} </Text>:null}
           <View style={styles.textInputContainer}>
             <Text style={styles.text}>Last Name</Text>
-            <CustomTextInput value={lastName} placeholder={"Enter your last name here"} onChangeText={text => setLastName(text)} />
+            <CustomTextInput value={lastName} placeholder={"Enter your last name"} onChangeText={text => setLastName(text)} />
           </View>
+          { errorLN ? <Text style={[ styles.text, { color: "red", fontSize: 12,marginLeft:"40%" } ]}>{errorLN} </Text>:null}
+          
           <View style={styles.textInputContainer}>
             <Text style={styles.text}>Email</Text>
-            <CustomTextInput value={email} placeholder={"Enter your email  here"} onChangeText={text => setEmail(text)} />
+            <CustomTextInput value={email} placeholder={"Enter your email"} onChangeText={text => setEmail(text)} keyboardType="email-address" />
           </View>
+          { errorEmail ? <Text style={[ styles.text, { color: "red", fontSize: 12,marginLeft:"40%" } ]}>{errorEmail} </Text>:null}
           <View style={styles.textInputContainer}>
             <Text style={styles.text}>Phone </Text>
-            <CustomTextInput value={number} placeholder={"Enter your Phone number here"} onChangeText={text => setNumber(text)} />
+            <CustomTextInput value={number} placeholder={"Enter your Phone number"} onChangeText={text => setNumber(text)} keyboardType="numeric" />
           </View>
-          <Text style={[styles.text,{color:"red", fontSize:15,textAlign:'center',fontWeight:"bold"}]}>{errorText} </Text>
-          <View style={[ styles.textInputContainer, { justifyContent: "flex-end", marginLeft: 200 } ]}>
+          { errorNum ? <Text style={[ styles.text, { color: "red", fontSize: 12,marginLeft:"40%" } ]}>{errorNum} </Text>:null}
+            <View style={[ styles.textInputContainer, { justifyContent: "flex-end", marginLeft: 200 } ]}>
             <CustomButton
               title={'Submit'}
               onPress={handleSubmit}
@@ -121,6 +143,8 @@ const Details = (props) => {
               backgroundColor={theme ? '#3b71f3' : '#3b71f3'}
             />
           </View>
+          {modalVisible?<ErrorModal Message="Sucess" />:null}
+          
         </View>
       )}
 

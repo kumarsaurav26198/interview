@@ -9,6 +9,7 @@ const initialState = {
 export const fetchDataReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.FETCH_DATA_REQUEST:
+    console.log("FETCH_DATA_REQUEST", action.payload)
       return {
         ...state,
         loading: true,
@@ -16,9 +17,10 @@ export const fetchDataReducer = (state = initialState, action) => {
       };
 
     case ActionTypes.FETCH_DATA_SUCCESS:
+      console.log("FETCH_DATA_SUCCESS fetchDataReducer",action.payload)
       return {
         ...state,
-        data: { ...state.data, ...action.payload },
+        data: action.payload,
         loading: false,
       };
 

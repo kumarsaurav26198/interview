@@ -1,26 +1,22 @@
-import { StyleSheet, TouchableOpacity, View, Image } from 'react-native';
 import React from 'react';
-import { Card } from 'react-native-paper';
+import { StyleSheet, TouchableOpacity, View, Image, Dimensions } from 'react-native';
 
-const MyCard = ({ title, onPress, imageUri }) => {
+const MyCard = ({  onPress, imageUri }) => {
+  const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+  const imageWidth = screenWidth *1; 
+  const imageHeight = screenHeight * 1; 
 
   return (
-    <View style={{ paddingTop: 10, paddingBottom: 10}}>
+    <View style={{ borderWidth:1,borderColor:"blue" }}>
       <TouchableOpacity onPress={onPress}>
         <Image
           source={{ uri: imageUri }}
           style={{
-            aspectRatio: 1,
+            width: imageWidth,
+            height: imageHeight,
+            resizeMode: 'contain', 
           }}
-          resizeMode='contain'
         />
-        <Card>
-          <Card.Title
-            title={`ID : ${ title }`}
-            titleVariant="headlineMedium"
-            titleStyle={{ color: '#1bb57d', fontWeight: 'bold' }}
-          />
-        </Card>
       </TouchableOpacity>
     </View>
   );
@@ -29,5 +25,4 @@ const MyCard = ({ title, onPress, imageUri }) => {
 export default MyCard;
 
 const styles = StyleSheet.create({
-
 });
