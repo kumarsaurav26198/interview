@@ -16,7 +16,6 @@ const Details = (props) => {
   const [ lastName, setLastName ] = useState("");
   const [ email, setEmail ] = useState("");
   const [ number, setNumber ] = useState("");
-  const [ modalVisible, setModalVisible ] = useState(false);
   const [ errorFn, setErrorFn ] = useState("");
   const [ errorLN, setErrorLN ] = useState("");
   const [ errorEmail, setErrorEmail ] = useState("");
@@ -36,7 +35,11 @@ const Details = (props) => {
     setErrorLN('');
     setErrorEmail("");
     setErrorNum('');
-    setModalVisible(true)
+    setEmail("")
+    setFirstName('')
+    setLastName("")
+    setNumber('')    
+
   };
   const handleSubmit = () => {
     if (firstName.trim().length === 0)
@@ -90,7 +93,7 @@ const Details = (props) => {
       number: number,
       user_image: data.imageUrl
     };
-    dispatch(postDataRequest(payload));
+    dispatch(postDataRequest(payload))
     clearAll();
   };
 
@@ -143,8 +146,6 @@ const Details = (props) => {
               backgroundColor={theme ? '#3b71f3' : '#3b71f3'}
             />
           </View>
-          {modalVisible?<ErrorModal Message="Sucess" />:null}
-          
         </View>
       )}
 

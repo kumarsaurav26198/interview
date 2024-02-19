@@ -27,6 +27,5 @@ export const updateStatus = () => {
     console.log("UPDATE_STATE action called");
     return {
         type: ActionTypes.UPDATE_STATE,
-        // payload: error,
     };
 };

@@ -17,6 +17,7 @@ export const postDataReducers = (state = initialState, action) => {
 
     case ActionTypes.POST_DATA_SUCCESS:
     console.log("POST_DATA_SUCCESS", action.payload)
+    alert(action?.payload?.message)
       return {
         ...state,
         loading: false,
